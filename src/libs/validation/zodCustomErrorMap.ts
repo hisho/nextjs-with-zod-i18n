@@ -4,6 +4,7 @@ import type { UseLocaleResult } from '@src/hooks/useLocale'
 export const zodCustomErrorMap =
   (locale: UseLocaleResult['locale']): z.ZodErrorMap =>
   (issue, ctx) => {
+    const isJapanese = locale === 'ja'
     /**
      * enの場合はDefaultエラー内容を返す
      */
@@ -14,7 +15,7 @@ export const zodCustomErrorMap =
       case z.ZodIssueCode.invalid_type:
         if (issue.received === 'undefined') {
           return {
-            message: locale === 'ja' ? '必須' : ctx.defaultError,
+            message: isJapanese ? '必須' : ctx.defaultError,
           }
         } else {
           return {
@@ -58,7 +59,9 @@ export const zodCustomErrorMap =
       case z.ZodIssueCode.invalid_string:
         if (issue.validation !== 'regex') {
           return {
-            message: `Invalid ${issue.validation}`,
+            message: isJapanese
+              ? `${issue.validation}は無効な形式です`
+              : ctx.defaultError,
           }
         } else {
           return {
@@ -74,9 +77,11 @@ export const zodCustomErrorMap =
           }
         } else if (issue.type === 'string') {
           return {
-            message: `String must contain ${
-              issue.inclusive ? `at least` : `over`
-            } ${issue.minimum} character(s)`,
+            message: isJapanese
+              ? issue.inclusive
+                ? `文字列には少なくとも${issue.minimum}文字が含まれている必要があります`
+                : `文字列には${issue.minimum}文字以上が含まれている必要があります`
+              : ctx.defaultError,
           }
         } else if (issue.type === 'number') {
           return {
