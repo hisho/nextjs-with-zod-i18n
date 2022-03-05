@@ -21,6 +21,7 @@ const sleep = (ms: number = 1000) =>
 
 const Home: NextPage = () => {
   const { control, handleSubmit, formState } = useForm<z.infer<typeof schema>>({
+    mode: 'all',
     resolver: zodResolver(schema),
   })
   const { isJapanese } = useLocale()
