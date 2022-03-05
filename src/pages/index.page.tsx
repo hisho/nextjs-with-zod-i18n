@@ -10,7 +10,7 @@ import { useLocale } from '@src/hooks/useLocale'
 import { useState } from 'react'
 
 const schema = z.object({
-  name: z.string(),
+  name: z.string().min(2),
   email: z.string().email(),
 })
 
