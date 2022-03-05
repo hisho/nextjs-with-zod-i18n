@@ -20,3 +20,5 @@ export const useLocale = (): { locale: ReturnType<typeof localeMap> } => {
   const locale = localeMap(_locale)
   return { locale }
 }
+
+export type UseLocaleResult = ReturnType<typeof useLocale>
