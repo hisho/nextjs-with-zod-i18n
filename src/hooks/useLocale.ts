@@ -14,11 +14,21 @@ const localeMap = (locale: NextRouter['locale']) => {
 /**
  * @see https://zenn.dev/steelydylan/articles/nextjs-with-i18n
  */
-export const useLocale = (): { locale: ReturnType<typeof localeMap> } => {
+export const useLocale = (): {
+  isEnglish: boolean
+  isJapanese: boolean
+  locale: ReturnType<typeof localeMap>
+} => {
   const { locale: _locale } = useRouter()
 
   const locale = localeMap(_locale)
-  return { locale }
+  const isJapanese = locale === 'ja'
+  const isEnglish = locale === 'en'
+  return {
+    isEnglish,
+    isJapanese,
+    locale,
+  }
 }
 
 export type UseLocaleResult = ReturnType<typeof useLocale>
